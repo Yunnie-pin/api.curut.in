@@ -1,0 +1,241 @@
+{
+	"info": {
+		"_postman_id": "d4f0d608-dc03-4da2-bd8d-41410c8e17e3",
+		"name": "Api.curut.in",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32381739",
+		"_collection_link": "https://winter-shadow-290463.postman.co/workspace/My-Workspace~0ba035d3-2b9e-4699-86b2-fb75b219dfcf/collection/32381739-d4f0d608-dc03-4da2-bd8d-41410c8e17e3?action=share&source=collection_link&creator=32381739"
+	},
+	"item": [
+		{
+			"name": "AUTH",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"set_token\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.environment.set(\"token\", jsonData.result.token);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"admin1234\",\r\n    \"password\" : \"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_local}}/api/auth/login",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" : \"admin1234\",\r\n    \"password\" : \"12345678\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url_local}}/api/auth/login",
+									"host": [
+										"{{url_local}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT, PATCH, OPTIONS"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 25 Jul 2024 04:43:11 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "326"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"response\": 200,\n    \"error\": \"\",\n    \"appid\": \"skincare-server\",\n    \"controller\": \"controller.AuthenticationController\",\n    \"action\": \"Login\",\n    \"result\": {\n        \"token_type\": \"Bearer\",\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjE4ODYxOTEsImlhdCI6MTcyMTg4MjU5MSwibmJmIjoxNzIxODgyNTkxLCJzdWIiOjF9.fgHdrNFPTL_eExzqLtANt-LeBl9MdflaGkZw33GyEx4\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"userbaru55\",\r\n    \"email\" : \"userbaru41@gmail.com\",\r\n    \"password\" : \"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_local}}/api/auth/register",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" : \"userbaru1234\",\r\n    \"email\" : \"userbaru44@gmail.com\",\r\n    \"password\" : \"12345678\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url_local}}/api/auth/register",
+									"host": [
+										"{{url_local}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET, POST, DELETE, PUT, PATCH, OPTIONS"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 25 Jul 2024 06:43:51 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "326"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"response\": 200,\n    \"error\": \"\",\n    \"appid\": \"skincare-server\",\n    \"controller\": \"controller.AuthenticationController\",\n    \"action\": \"Register\",\n    \"result\": {\n        \"id\": 989001908406747137,\n        \"username\": \"userbaru1234\",\n        \"email\": \"userbaru44@gmail.com\",\n        \"role_id\": 1,\n        \"created_at\": \"2024-07-25T13:43:50.3507053+07:00\",\n        \"updated_at\": \"2024-07-25T13:43:50.3507053+07:00\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "<TEST>",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjE5NjkxNjYsImlhdCI6MTcyMTk2NTU2NiwibmJmIjoxNzIxOTY1NTY2LCJzdWIiOjF9.pUySpvpKAtJlzbfzzkFpxrLTAZUK_E9uLTVVjacB-wU",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url_local}}/api/auth/test",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"test"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
