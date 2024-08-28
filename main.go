@@ -15,9 +15,6 @@ import (
 
 func main() {
 	loadConfig, err := config.LoadConfig(".")
-	if err != nil {
-		log.Fatal("🧊 Tidak bisa membuka environment variabel. ", err)
-	}
 
 	//Init Database
 	db := config.StartDB(&loadConfig)
