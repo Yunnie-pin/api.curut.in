@@ -1,14 +1,14 @@
 package middlewares
 
 import (
-	"api-curut-in/structs"
+	"api-curut-in/data"
+	"api-curut-in/helpers"
 	"encoding/json"
 	"net/http"
 	"strings"
 
 	"api-curut-in/config"
 	"api-curut-in/repository"
-	"api-curut-in/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -24,7 +24,7 @@ func DeserializeUser(userRepository repository.UsersRepository) gin.HandlerFunc 
 		}
 
 		if token == "" {
-			ctx.AbortWithStatusJSON(http.StatusUnauthorized, structs.ResponseModel{
+			ctx.AbortWithStatusJSON(http.StatusUnauthorized, data.ResponseModel{
 				Response:   http.StatusUnauthorized,
 				Error:      "Unauthorized",
 				AppID:      "api.curut.id",
@@ -36,9 +36,9 @@ func DeserializeUser(userRepository repository.UsersRepository) gin.HandlerFunc 
 		}
 
 		config, _ := config.LoadConfig(".")
-		sub, err := utils.ValidateToken(token, config.SecretKey)
+		sub, err := helpers.ValidateToken(token, config.SecretKey)
 		if err != nil {
-			ctx.AbortWithStatusJSON(http.StatusUnauthorized, structs.ResponseModel{
+			ctx.AbortWithStatusJSON(http.StatusUnauthorized, data.ResponseModel{
 				Response:   http.StatusUnauthorized,
 				Error:      "Unauthorized",
 				AppID:      "api.curut.id",
@@ -57,7 +57,7 @@ func DeserializeUser(userRepository repository.UsersRepository) gin.HandlerFunc 
 		role := string(idRole)
 
 		if err != nil {
-			ctx.AbortWithStatusJSON(http.StatusForbidden, structs.ResponseModel{
+			ctx.AbortWithStatusJSON(http.StatusForbidden, data.ResponseModel{
 				Response:   http.StatusForbidden,
 				Error:      "You are not authorized to access this route",
 				AppID:      "api.curut.id",
@@ -81,7 +81,7 @@ func AuthorizationAdmin() gin.HandlerFunc {
 		role, _ := ctx.Get("role")
 		// jika role bukan 1 maka akan di abort
 		if role != "1" {
-			ctx.AbortWithStatusJSON(http.StatusForbidden, structs.ResponseModel{
+			ctx.AbortWithStatusJSON(http.StatusForbidden, data.ResponseModel{
 				Response:   http.StatusForbidden,
 				Error:      "You are not authorized to access this route",
 				AppID:      "api.curut.id",

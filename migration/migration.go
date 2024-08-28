@@ -1,8 +1,8 @@
 package migration
 
 import (
+	"api-curut-in/helpers"
 	models "api-curut-in/migration/migration_model"
-	"api-curut-in/utils"
 	"time"
 
 	"github.com/google/uuid"
@@ -39,7 +39,7 @@ func SendSeeder(db *gorm.DB, total int) (err error) {
 	}
 	db.Create(&roles)
 
-	hashedPassword, _ := utils.HashPassword("12345678")
+	hashedPassword, _ := helpers.HashPassword("12345678")
 
 	uidUser := []uuid.UUID{
 		uuid.New(),

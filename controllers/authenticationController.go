@@ -1,8 +1,8 @@
 package controllers
 
 import (
+	"api-curut-in/data"
 	"api-curut-in/services"
-	"api-curut-in/structs"
 	"fmt"
 	"net/http"
 
@@ -35,7 +35,7 @@ func (controller *AuthenticationController) Login(ctx *gin.Context) {
 	token, err_token := controller.authenticationService.Login(loginRequest)
 	fmt.Println(err_token)
 	if err_token != nil {
-		webResponse := structs.ResponseModel{
+		webResponse := data.ResponseModel{
 			Response:   http.StatusBadRequest,
 			AppID:      "api.curut.id",
 			Error:      "Invalid username or password",
@@ -52,7 +52,7 @@ func (controller *AuthenticationController) Login(ctx *gin.Context) {
 		Token:     token,
 	}
 
-	webResponse := structs.ResponseModel{
+	webResponse := data.ResponseModel{
 		Response:   http.StatusOK,
 		AppID:      "api.curut.id",
 		Error:      "",
@@ -76,7 +76,7 @@ func (controller *AuthenticationController) Register(ctx *gin.Context) {
 
 	savedUser, err := controller.authenticationService.Register(createUsersRequest)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, structs.ResponseModel{
+		ctx.JSON(http.StatusInternalServerError, data.ResponseModel{
 			Response:   http.StatusInternalServerError,
 			AppID:      "api.curut.id",
 			Error:      []string{err.Error()},
@@ -87,7 +87,7 @@ func (controller *AuthenticationController) Register(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, structs.ResponseModel{
+	ctx.JSON(http.StatusOK, data.ResponseModel{
 		Response:   http.StatusOK,
 		AppID:      "api.curut.id",
 		Error:      "",

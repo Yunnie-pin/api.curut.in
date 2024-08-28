@@ -1,13 +1,13 @@
 package helpers
 
 import (
-	"api-curut-in/structs"
+	"api-curut-in/data"
 	"math"
 
 	"gorm.io/gorm"
 )
 
-func Paginate(value interface{}, pagination *structs.Pagination, db *gorm.DB) func(db *gorm.DB) *gorm.DB {
+func Paginate(value interface{}, pagination *data.Pagination, db *gorm.DB) func(db *gorm.DB) *gorm.DB {
 	var totalRows int64
 	db.Model(value).Count(&totalRows)
 

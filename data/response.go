@@ -1,4 +1,4 @@
-package structs
+package data
 
 type ResponseModel struct {
 	Response   int         `json:"response"`

@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"api-curut-in/structs"
+	"api-curut-in/data"
 	"net/http"
 
 	"api-curut-in/repository"
@@ -19,7 +19,7 @@ func NewUsersController(repository repository.UsersRepository) *UserController {
 
 func (controller *UserController) GetAllUsers(ctx *gin.Context) {
 	users := controller.userRepository.FindAll()
-	webResponse := structs.ResponseModel{
+	webResponse := data.ResponseModel{
 		Response:   http.StatusOK,
 		Error:      "",
 		AppID:      "api.curut.id",
@@ -36,7 +36,7 @@ func (controller *UserController) GetUserByToken(ctx *gin.Context) {
 
 	user, err := controller.userRepository.FindById(string(id.(string)))
 	if err != nil {
-		webResponse := structs.ResponseModel{
+		webResponse := data.ResponseModel{
 			Response:   http.StatusNotFound,
 			Error:      "User not found",
 			AppID:      "api.curut.id",
@@ -48,7 +48,7 @@ func (controller *UserController) GetUserByToken(ctx *gin.Context) {
 		return
 	}
 
-	webResponse := structs.ResponseModel{
+	webResponse := data.ResponseModel{
 		Response:   http.StatusOK,
 		Error:      "",
 		AppID:      "api.curut.id",

@@ -1,7 +1,7 @@
 package helpers
 
 import (
-	"api-curut-in/structs"
+	"api-curut-in/data"
 	"fmt"
 	"net/http"
 
@@ -17,7 +17,7 @@ func ErrorPanic(err error) {
 
 func ErrorResponse(ctx *gin.Context, err error, msg string) {
 	//HANDLE GORM ERROR
-	ctx.JSON(http.StatusBadRequest, structs.ResponseModel{
+	ctx.JSON(http.StatusBadRequest, data.ResponseModel{
 		Response:   http.StatusBadRequest,
 		Error:      msg,
 		AppID:      "api.curut.id",
@@ -29,7 +29,7 @@ func ErrorResponse(ctx *gin.Context, err error, msg string) {
 
 func ErrorMultipeResponse(ctx *gin.Context, err any, msg string) {
 	//HANDLE GORM ERROR
-	ctx.JSON(http.StatusBadRequest, structs.ResponseModel{
+	ctx.JSON(http.StatusBadRequest, data.ResponseModel{
 		Response:   http.StatusBadRequest,
 		Error:      msg,
 		AppID:      "api.curut.id",
@@ -50,7 +50,7 @@ func ErrorBinding(ctx *gin.Context, err error, statusCode int, msg string) {
 		errorMessages = append(errorMessages, err.Error())
 	}
 
-	ctx.JSON(http.StatusBadRequest, structs.ResponseModel{
+	ctx.JSON(http.StatusBadRequest, data.ResponseModel{
 		Response:   statusCode,
 		Error:      errorMessages,
 		AppID:      "api.curut.id",

@@ -9,7 +9,6 @@ import (
 	"api-curut-in/helpers"
 	"api-curut-in/models"
 	"api-curut-in/repository"
-	"api-curut-in/utils"
 )
 
 type AuthenticationServiceImpl struct {
@@ -30,13 +29,13 @@ func (a *AuthenticationServiceImpl) Login(users request.LoginRequest) (string, e
 
 	config, _ := config.LoadConfig(".")
 
-	verify_error := utils.VerifyPassword(new_users.Password, users.Password)
+	verify_error := helpers.VerifyPassword(new_users.Password, users.Password)
 	if verify_error != nil {
 		return "", errors.New("invalid username or Password")
 	}
 
 	// Generate Token
-	token, err_token := utils.GenerateToken(config.TokenExpiresIn, new_users.ID, config.SecretKey)
+	token, err_token := helpers.GenerateToken(config.TokenExpiresIn, new_users.ID, config.SecretKey)
 	helpers.ErrorPanic(err_token)
 	return token, nil
 
@@ -45,7 +44,7 @@ func (a *AuthenticationServiceImpl) Login(users request.LoginRequest) (string, e
 // Register implements AuthenticationService
 func (a *AuthenticationServiceImpl) Register(u request.CreateUserRequest) (models.UserResponse, error) {
 
-	hashedPassword, err := utils.HashPassword(u.Password)
+	hashedPassword, err := helpers.HashPassword(u.Password)
 	helpers.ErrorPanic(err)
 
 	newUser := models.Users{
