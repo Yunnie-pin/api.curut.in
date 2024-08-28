@@ -14,7 +14,7 @@ import (
 )
 
 func main() {
-	loadConfig, err := config.LoadConfig(".")
+	loadConfig, _ := config.LoadConfig(".")
 
 	//Init Database
 	db := config.StartDB(&loadConfig)
@@ -26,7 +26,7 @@ func main() {
 	flag.Parse()
 	if *input {
 		//Migration
-		err = migration.MigrationDB(db)
+		err := migration.MigrationDB(db)
 		if err != nil {
 			log.Fatal("🧊 Tidak bisa melakukan migrasi database. ", err)
 		}
