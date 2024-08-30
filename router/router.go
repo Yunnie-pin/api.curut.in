@@ -33,7 +33,21 @@ func NewRouter(
 			// authRouter.GET("/users", authenticationController.CheckToken)
 			// authRouter.POST("/logout", authenticationController.Logout)
 		}
-	
+
+		// guestRouter := apiRouter.Group("/guest")
+		// {
+		// 	guestRouter.POST("/shorten", func(ctx *gin.Context) {
+		// 		ctx.JSON(200, gin.H{
+		// 			"message": "shorten",
+		// 		})
+		// 	})
+		// 	guestRouter.GET("/shorten/:code", func(ctx *gin.Context) {
+		// 		ctx.JSON(200, gin.H{
+		// 			"message": "shorten",
+		// 		})
+		// 	})
+		// }
+
 	}
 
 	return r
