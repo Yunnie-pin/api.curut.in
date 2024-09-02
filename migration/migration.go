@@ -13,10 +13,12 @@ func MigrationDB(db *gorm.DB) (err error) {
 	// //drop table if exists
 	db.Migrator().DropTable(&models.Roles{})
 	db.Migrator().DropTable(&models.Users{})
+	db.Migrator().DropTable(&models.Shorten{})
 
 	//create table
 	db.Table("roles").AutoMigrate(&models.Roles{})
 	db.Table("users").AutoMigrate(&models.Users{})
+	db.Table("shortens").AutoMigrate(&models.Shorten{})
 
 	//create multiple records with faker
 	SendSeeder(db, 10)
@@ -68,6 +70,21 @@ func SendSeeder(db *gorm.DB, total int) (err error) {
 	}
 
 	db.Create(&users)
+
+	exampleShorten := []models.Shorten{
+		{
+			ID:        uuid.New(),
+			Shorten:   "google",
+			Original:  "https://www.google.com",
+			Flag:      true,
+			CreatedAt: time.Now(),
+			CreatedBy: string(uidUser[0].String()),
+			UpdatedAt: time.Now(),
+			UpdatedBy: string(uidUser[0].String()),
+		},
+	}
+
+	db.Create(&exampleShorten)
 
 	return
 }

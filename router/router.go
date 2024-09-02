@@ -12,6 +12,7 @@ func NewRouter(
 	userRepository repository.UsersRepository,
 	userController *controllers.UserController,
 	authenticationController *controllers.AuthenticationController,
+	shortenController *controllers.ShortenController,
 ) *gin.Engine {
 	r := gin.Default()
 	r.LoadHTMLFiles("view/index.html")
@@ -34,19 +35,26 @@ func NewRouter(
 			// authRouter.POST("/logout", authenticationController.Logout)
 		}
 
-		// guestRouter := apiRouter.Group("/guest")
-		// {
-		// 	guestRouter.POST("/shorten", func(ctx *gin.Context) {
-		// 		ctx.JSON(200, gin.H{
-		// 			"message": "shorten",
-		// 		})
-		// 	})
-		// 	guestRouter.GET("/shorten/:code", func(ctx *gin.Context) {
-		// 		ctx.JSON(200, gin.H{
-		// 			"message": "shorten",
-		// 		})
-		// 	})
-		// }
+		guestRouter := apiRouter.Group("/guest")
+		{
+			guestRouter.POST("/shorten", shortenController.CreateShorten)
+			guestRouter.GET("/shorten/:code", func(ctx *gin.Context) {
+				ctx.JSON(200, gin.H{
+					"message": "shorten",
+				})
+			})
+		}
+		userRouter := apiRouter.Group("/user")
+		{
+			// userRouter.Use(middlewares.DeserializeUser(userRepository))
+			userRouter.GET("/shorten", shortenController.GetListShorten)
+			userRouter.POST("/shorten", shortenController.CreateShorten)
+			userRouter.GET("/shorten/:code", func(ctx *gin.Context) {
+				ctx.JSON(200, gin.H{
+					"message": "shorten",
+				})
+			})
+		}
 
 	}
 

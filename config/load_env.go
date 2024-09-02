@@ -12,19 +12,17 @@ type Config struct {
 	SecretKey      string        `mapstructure:"SECRET_KEY"`
 	TokenExpiresIn time.Duration `mapstructure:"TOKEN_EXPIRED_IN"`
 	TokenMaxAge    int           `mapstructure:"TOKEN_MAXAGE"`
-
-	DBHost     string `mapstructure:"DB_HOST"`
-	DBPort     string `mapstructure:"DB_PORT"`
-	DBUser     string `mapstructure:"DB_USER"`
-	DBPassword string `mapstructure:"DB_PASSWORD"`
-	DBName     string `mapstructure:"DB_NAME"`
-	DBURL      string `mapstructure:"DB_URL"`
+	DBHost         string        `mapstructure:"DB_HOST"`
+	DBPort         string        `mapstructure:"DB_PORT"`
+	DBUser         string        `mapstructure:"DB_USER"`
+	DBPassword     string        `mapstructure:"DB_PASSWORD"`
+	DBName         string        `mapstructure:"DB_NAME"`
+	DBURL          string        `mapstructure:"DB_URL"`
 }
 
 func LoadConfig(path string) (config Config, err error) {
 	viper.AddConfigPath(path)
-	viper.SetConfigType("env")
-	viper.SetConfigName("app")
+	viper.SetConfigFile(".env")
 
 	viper.AutomaticEnv()
 

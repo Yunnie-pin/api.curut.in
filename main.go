@@ -35,6 +35,7 @@ func main() {
 
 	//Init Repository
 	userRepository := repository.NewUsersRepositoryImpl(db)
+	shortenRepository := repository.NewShortenRepositoryImpl(db)
 
 	//init Service
 	authService := services.NewAuthenticationServiceImpl(userRepository)
@@ -42,12 +43,14 @@ func main() {
 	//Init Controller
 	userController := controllers.NewUsersController(userRepository)
 	authController := controllers.NewAuthenticationController(authService)
+	shortenController := controllers.NewShortenController(shortenRepository)
 
 	//Init Router
 	r := router.NewRouter(
 		userRepository,
 		userController,
 		authController,
+		shortenController,
 	)
 
 	log.Println("🧊 ENV: ", loadConfig.Env)
