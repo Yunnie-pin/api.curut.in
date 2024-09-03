@@ -40,9 +40,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{url_local}}/api/auth/login",
+							"raw": "{{url}}/api/auth/login",
 							"host": [
-								"{{url_local}}"
+								"{{url}}"
 							],
 							"path": [
 								"api",
@@ -131,9 +131,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{url_local}}/api/auth/register",
+							"raw": "{{url}}/api/auth/register",
 							"host": [
-								"{{url_local}}"
+								"{{url}}"
 							],
 							"path": [
 								"api",
@@ -236,6 +236,119 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Admin",
+					"item": [
+						{
+							"name": "Get All Shorten",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url_local}}/api/user/shorten",
+									"host": [
+										"{{url_local}}"
+									],
+									"path": [
+										"api",
+										"user",
+										"shorten"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create Shorten by User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"shorten\" : \"mad-fgo\",\r\n    \"original\" : \"https://www.youtube.com/watch?v=ZMSz2hQc4Vs&list=RDpZdWO9I_cxA&index=2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_local}}/api/user/shorten",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"shorten"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Create Shorten (Non User)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"shorten\" : \"youtube\",\r\n    \"original\" : \"https://www.youtube.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_local}}/api/guest/shorten",
+					"host": [
+						"{{url_local}}"
+					],
+					"path": [
+						"api",
+						"guest",
+						"shorten"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "redirect",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url_local}}/redirect/asdasdsadasd",
+					"host": [
+						"{{url_local}}"
+					],
+					"path": [
+						"redirect",
+						"asdasdsadasd"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
