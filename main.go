@@ -14,7 +14,7 @@ import (
 )
 
 func main() {
-	loadConfig, _ := config.LoadConfig(".")
+	loadConfig, _ := config.LoadConfig()
 
 	//Init Database
 	db := config.StartDB(&loadConfig)

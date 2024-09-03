@@ -27,7 +27,7 @@ func (a *AuthenticationServiceImpl) Login(users request.LoginRequest) (string, e
 		return "", errors.New("invalid username or Password")
 	}
 
-	config, _ := config.LoadConfig(".")
+	config, _ := config.LoadConfig()
 
 	verify_error := helpers.VerifyPassword(new_users.Password, users.Password)
 	if verify_error != nil {
@@ -35,7 +35,13 @@ func (a *AuthenticationServiceImpl) Login(users request.LoginRequest) (string, e
 	}
 
 	// Generate Token
-	token, err_token := helpers.GenerateToken(config.TokenExpiresIn, new_users.ID, config.SecretKey)
+	// string to tim
+	duration, err := time.ParseDuration(config.TokenExpiresIn)
+	if err != nil {
+		return "", err
+	}
+
+	token, err_token := helpers.GenerateToken(duration, new_users.ID, config.SecretKey)
 	helpers.ErrorPanic(err_token)
 	return token, nil
 

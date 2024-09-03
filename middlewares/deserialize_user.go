@@ -35,7 +35,7 @@ func DeserializeUser(userRepository repository.UsersRepository) gin.HandlerFunc 
 			return
 		}
 
-		config, _ := config.LoadConfig(".")
+		config, _ := config.LoadConfig()
 		sub, err := helpers.ValidateToken(token, config.SecretKey)
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusUnauthorized, data.ResponseModel{

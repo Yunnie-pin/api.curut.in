@@ -1,36 +1,41 @@
 package config
 
 import (
-	"time"
+	"os"
 
-	"github.com/spf13/viper"
+	"github.com/joho/godotenv"
 )
 
 type Config struct {
-	Env            string        `mapstructure:"ENV"`
-	Port           string        `mapstructure:"PORT"`
-	SecretKey      string        `mapstructure:"SECRET_KEY"`
-	TokenExpiresIn time.Duration `mapstructure:"TOKEN_EXPIRED_IN"`
-	TokenMaxAge    int           `mapstructure:"TOKEN_MAXAGE"`
-	DBHost         string        `mapstructure:"DB_HOST"`
-	DBPort         string        `mapstructure:"DB_PORT"`
-	DBUser         string        `mapstructure:"DB_USER"`
-	DBPassword     string        `mapstructure:"DB_PASSWORD"`
-	DBName         string        `mapstructure:"DB_NAME"`
-	DBURL          string        `mapstructure:"DB_URL"`
+	Env            string
+	Port           string
+	SecretKey      string
+	TokenExpiresIn string
+	TokenMaxAge    string
+	DBHost         string
+	DBPort         string
+	DBUser         string
+	DBPassword     string
+	DBName         string
+	DBURL          string
 }
 
-func LoadConfig(path string) (config Config, err error) {
-	viper.AddConfigPath(path)
-	viper.SetConfigFile(".env")
+func LoadConfig() (config Config, err error) {
+	godotenv.Load()
 
-	viper.AutomaticEnv()
-
-	err = viper.ReadInConfig()
-	if err != nil {
-		return
+	config = Config{
+		Env:            os.Getenv("ENV"),
+		Port:           os.Getenv("PORT"),
+		SecretKey:      os.Getenv("SECRET"),
+		TokenExpiresIn: os.Getenv("TOKEN_EXPIRESIN"),
+		TokenMaxAge:    os.Getenv("TOKEN_MAXAGE"),
+		DBHost:         os.Getenv("DB_HOST"),
+		DBPort:         os.Getenv("DB_PORT"),
+		DBUser:         os.Getenv("DB_USER"),
+		DBPassword:     os.Getenv("DB_PASSWORD"),
+		DBName:         os.Getenv("DB_NAME"),
+		DBURL:          os.Getenv("DB_URL"),
 	}
 
-	err = viper.Unmarshal(&config)
 	return
 }
