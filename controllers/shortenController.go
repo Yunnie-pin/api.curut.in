@@ -37,7 +37,7 @@ func (s *ShortenController) GetListShorten(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, response)
 }
 
-func (s *ShortenController) CreateShorten(ctx *gin.Context) {
+func (s *ShortenController) CreateShortenByPub(ctx *gin.Context) {
 	createShortenRequest := models.CreateShortenRequest{}
 
 	ctx.ShouldBindJSON(&createShortenRequest)
@@ -49,9 +49,70 @@ func (s *ShortenController) CreateShorten(ctx *gin.Context) {
 		return
 	}
 
+	us, err := s.shortenRepository.IsShortenAlreadyTaken(createShortenRequest.Shorten)
+	if err != nil {
+		helpers.ErrorResponse(ctx, err, "Failed to check shorten")
+		return
+	}
+
+	if us {
+		helpers.ErrorResponse(ctx, err, "Shorten already taken")
+		return
+	}
+
 	shorten := models.Shorten{
 		Shorten:  createShortenRequest.Shorten,
 		Original: createShortenRequest.Original,
+	}
+
+	newShorten, err := s.shortenRepository.Save(shorten)
+	if err != nil {
+		helpers.ErrorResponse(ctx, err, "Failed to save shorten")
+		return
+	}
+
+	response := data.ResponseModel{
+		Response:   http.StatusOK,
+		Error:      "",
+		AppID:      "api-curut-in",
+		Controller: "ShortenController",
+		Action:     "CreateShorten",
+		Result:     newShorten,
+	}
+
+	ctx.JSON(http.StatusOK, response)
+
+}
+
+func (s *ShortenController) CreateShortenByUser(ctx *gin.Context) {
+	userId := ctx.Value("userId")
+	createShortenRequest := models.CreateShortenRequest{}
+
+	ctx.ShouldBindJSON(&createShortenRequest)
+
+	err := validate.Struct(createShortenRequest)
+
+	if err != nil {
+		helpers.ErrorResponse(ctx, err, "Error validate request")
+		return
+	}
+
+	us, err := s.shortenRepository.IsShortenAlreadyTaken(createShortenRequest.Shorten)
+	if err != nil {
+		helpers.ErrorResponse(ctx, err, "Failed to check shorten")
+		return
+	}
+
+	if us {
+		helpers.ErrorResponse(ctx, err, "Shorten already taken")
+		return
+	}
+
+	shorten := models.Shorten{
+		Shorten:   createShortenRequest.Shorten,
+		Original:  createShortenRequest.Original,
+		CreatedBy: userId.(string),
+		UpdatedBy: userId.(string),
 	}
 
 	newShorten, err := s.shortenRepository.Save(shorten)

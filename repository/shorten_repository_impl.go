@@ -27,3 +27,11 @@ func (s *ShortenRepositoryImpl) Save(shorten models.Shorten) (*models.Shorten, e
 	result := s.Db.Create(&shorten)
 	return &shorten, result.Error
 }
+
+func (s *ShortenRepositoryImpl) IsShortenAlreadyTaken(shorten string) (bool, error) {
+	var count int64
+	result := s.Db.Model(&models.Shorten{}).Where("shorten = ?", shorten).Count(&count)
+	helpers.ErrorPanic(result.Error)
+
+	return count > 0, result.Error
+}

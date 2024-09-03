@@ -22,10 +22,19 @@ func NewRouter(
 		c.HTML(200, "index.html", nil)
 	})
 
+	//redirect
+	r.GET("/redirect/:name", func(ctx *gin.Context) {
+		name := ctx.Param("name")
+		ctx.JSON(200, gin.H{
+			"code": name,
+		})
+	})
+
 	//api
 	r.Use(middlewares.CORSMiddleware())
 	apiRouter := r.Group("/api")
 	{
+
 		authRouter := apiRouter.Group("/auth")
 		{
 			authRouter.GET("/users", middlewares.DeserializeUser(userRepository), userController.GetUserByToken)
@@ -37,23 +46,25 @@ func NewRouter(
 
 		guestRouter := apiRouter.Group("/guest")
 		{
-			guestRouter.POST("/shorten", shortenController.CreateShorten)
-			guestRouter.GET("/shorten/:code", func(ctx *gin.Context) {
-				ctx.JSON(200, gin.H{
-					"message": "shorten",
-				})
-			})
+			guestRouter.POST("/shorten", shortenController.CreateShortenByPub)
 		}
+
+		cmsRouter := apiRouter.Group("/cms")
+		{
+			cmsRouter.Use(middlewares.DeserializeUser(userRepository))
+			cmsRouter.Use(middlewares.AuthorizationAdmin())
+			cmsRouter.GET("/shorten", shortenController.GetListShorten)
+
+		}
+
 		userRouter := apiRouter.Group("/user")
 		{
-			// userRouter.Use(middlewares.DeserializeUser(userRepository))
-			userRouter.GET("/shorten", shortenController.GetListShorten)
-			userRouter.POST("/shorten", shortenController.CreateShorten)
-			userRouter.GET("/shorten/:code", func(ctx *gin.Context) {
-				ctx.JSON(200, gin.H{
-					"message": "shorten",
-				})
-			})
+			userRouter.Use(middlewares.DeserializeUser(userRepository))
+			shortenRouter := userRouter.Group("/shorten")
+			{
+				shortenRouter.GET("/", shortenController.GetListShorten)
+				shortenRouter.POST("/", shortenController.CreateShortenByUser)
+			}
 		}
 
 	}
