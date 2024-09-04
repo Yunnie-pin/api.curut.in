@@ -44,6 +44,7 @@ func main() {
 	userController := controllers.NewUsersController(userRepository)
 	authController := controllers.NewAuthenticationController(authService)
 	shortenController := controllers.NewShortenController(shortenRepository)
+	redirectController := controllers.NewRedirectController(shortenRepository)
 
 	//Init Router
 	r := router.NewRouter(
@@ -51,6 +52,7 @@ func main() {
 		userController,
 		authController,
 		shortenController,
+		redirectController,
 	)
 
 	log.Println("🧊 ENV: ", loadConfig.Env)

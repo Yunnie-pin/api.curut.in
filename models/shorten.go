@@ -18,6 +18,11 @@ type Shorten struct {
 	UpdatedBy string    `gorm:"type:varchar(225);not null" json:"updated_by"`
 }
 
+type ResRedirectShorten struct {
+	Shorten
+	Url string `json:"url"`
+}
+
 type CreateShortenRequest struct {
 	Shorten  string `json:"shorten" validate:"required"`
 	Original string `json:"original" validate:"required"`

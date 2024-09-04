@@ -10,5 +10,6 @@ type ShortenRepository interface {
 	Save(shorten models.Shorten) (*models.Shorten, error)
 	// FindShowedArticles() (*[]models.Shorten, error)
 	// FindByID(id string) (*models.Shorten, error)
+	FindShortenByName(name string) (*models.Shorten, error)
 	IsShortenAlreadyTaken(shorten string) (bool, error)
 }

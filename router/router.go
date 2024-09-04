@@ -13,6 +13,7 @@ func NewRouter(
 	userController *controllers.UserController,
 	authenticationController *controllers.AuthenticationController,
 	shortenController *controllers.ShortenController,
+	redirectController *controllers.RedirectController,
 ) *gin.Engine {
 	r := gin.Default()
 	r.LoadHTMLFiles("view/index.html")
@@ -23,7 +24,9 @@ func NewRouter(
 	})
 
 	//redirect
-	r.GET("/redirect/:name", func(ctx *gin.Context) {
+	r.GET("/redirect/:name", redirectController.Get)
+
+	r.GET("/redirect2/:name", func(ctx *gin.Context) {
 		name := ctx.Param("name")
 		ctx.JSON(200, gin.H{
 			"code": name,
@@ -54,7 +57,6 @@ func NewRouter(
 			cmsRouter.Use(middlewares.DeserializeUser(userRepository))
 			cmsRouter.Use(middlewares.AuthorizationAdmin())
 			cmsRouter.GET("/shorten", shortenController.GetListShorten)
-
 		}
 
 		userRouter := apiRouter.Group("/user")

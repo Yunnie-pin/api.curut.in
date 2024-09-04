@@ -3,6 +3,7 @@ package repository
 import (
 	"api-curut-in/helpers"
 	"api-curut-in/models"
+	"errors"
 
 	"gorm.io/gorm"
 )
@@ -13,6 +14,16 @@ type ShortenRepositoryImpl struct {
 
 func NewShortenRepositoryImpl(Db *gorm.DB) ShortenRepository {
 	return &ShortenRepositoryImpl{Db: Db}
+}
+
+func (s *ShortenRepositoryImpl) FindShortenByName(name string) (*models.Shorten, error) {
+	var shorten models.Shorten
+	result := s.Db.Where("shorten = ?", name).First(&shorten)
+	if result.Error != nil {
+		return &shorten, errors.New("NOT FOUND")
+	}
+
+	return &shorten, nil
 }
 
 func (s *ShortenRepositoryImpl) FindAll() (*[]models.Shorten, error) {
