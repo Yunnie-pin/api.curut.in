@@ -26,13 +26,6 @@ func NewRouter(
 	//redirect
 	r.GET("/redirect/:name", redirectController.Get)
 
-	r.GET("/redirect2/:name", func(ctx *gin.Context) {
-		name := ctx.Param("name")
-		ctx.JSON(200, gin.H{
-			"code": name,
-		})
-	})
-
 	//api
 	r.Use(middlewares.CORSMiddleware())
 	apiRouter := r.Group("/api")
@@ -66,6 +59,7 @@ func NewRouter(
 			{
 				shortenRouter.GET("/", shortenController.GetListShorten)
 				shortenRouter.POST("/", shortenController.CreateShortenByUser)
+				shortenRouter.PUT("/:id", shortenController.UpdateShorten)
 			}
 		}
 

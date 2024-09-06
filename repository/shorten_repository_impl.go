@@ -46,3 +46,21 @@ func (s *ShortenRepositoryImpl) IsShortenAlreadyTaken(shorten string) (bool, err
 
 	return count > 0, result.Error
 }
+
+func (s *ShortenRepositoryImpl) FindShortenByID(id string) (*models.Shorten, error) {
+	var shorten models.Shorten
+	result := s.Db.Where("id = ?", id).First(&shorten)
+	if result.Error != nil {
+		return &shorten, errors.New("NOT FOUND")
+	}
+
+	return &shorten, nil
+}
+
+func (s *ShortenRepositoryImpl) Update(shorten models.Shorten) (*models.Shorten, error) {
+	err := s.Db.Model(&shorten).Updates(shorten).Error
+	if err != nil {
+		return nil, err
+	}
+	return &shorten, nil
+}

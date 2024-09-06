@@ -6,6 +6,7 @@ import (
 	"api-curut-in/models"
 	"api-curut-in/repository"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -128,6 +129,70 @@ func (s *ShortenController) CreateShortenByUser(ctx *gin.Context) {
 		Controller: "ShortenController",
 		Action:     "CreateShorten",
 		Result:     newShorten,
+	}
+
+	ctx.JSON(http.StatusOK, response)
+
+}
+
+func (s *ShortenController) UpdateShorten(ctx *gin.Context) {
+	userId := ctx.Value("userId")
+	shortenId := ctx.Param("id")
+
+	shorten, err := s.shortenRepository.FindShortenByID(shortenId)
+
+	if err != nil {
+		helpers.ErrorResponse(ctx, err, "Id shorten not found")
+		return
+	}
+
+	updateShortenRequest := models.EditReqShorten{}
+
+	ctx.ShouldBindJSON(&updateShortenRequest)
+
+	err = validate.Struct(updateShortenRequest)
+
+	if err != nil {
+		helpers.ErrorResponse(ctx, err, "Error validate request")
+		return
+	}
+
+	us, err := s.shortenRepository.IsShortenAlreadyTaken(updateShortenRequest.Shorten)
+	if err != nil {
+		helpers.ErrorResponse(ctx, err, "Failed to check shorten")
+		return
+	}
+
+	if us {
+		helpers.ErrorResponse(ctx, err, "Shorten already taken")
+		return
+	}
+
+	shorten.Shorten = updateShortenRequest.Shorten
+	shorten.Original = updateShortenRequest.Original
+	shorten.UpdatedBy = userId.(string)
+	shorten.UpdatedAt = time.Now()
+
+	updatedShorten, err := s.shortenRepository.Update(*shorten)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, data.ResponseModel{
+			Response:   http.StatusInternalServerError,
+			Error:      err.Error(),
+			AppID:      "api-curut-in",
+			Controller: "ShortenController",
+			Action:     "UpdateShorten",
+			Result:     nil,
+		})
+		return
+	}
+
+	response := data.ResponseModel{
+		Response:   http.StatusOK,
+		Error:      "",
+		AppID:      "api-curut-in",
+		Controller: "ShortenController",
+		Action:     "UpdateShorten",
+		Result:     updatedShorten,
 	}
 
 	ctx.JSON(http.StatusOK, response)
