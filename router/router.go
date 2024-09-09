@@ -30,10 +30,12 @@ func NewRouter(
 	r.Use(middlewares.CORSMiddleware())
 	apiRouter := r.Group("/api")
 	{
-
 		authRouter := apiRouter.Group("/auth")
 		{
-			authRouter.GET("/users", middlewares.DeserializeUser(userRepository), userController.GetUserByToken)
+			authRouter.GET("/users",
+				middlewares.DeserializeUser(userRepository),
+				userController.GetUserByToken,
+			)
 			authRouter.POST("/login", authenticationController.Login)
 			authRouter.POST("/register", authenticationController.Register)
 			// authRouter.GET("/users", authenticationController.CheckToken)

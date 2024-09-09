@@ -277,6 +277,16 @@
 				{
 					"name": "Create Shorten by User",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -297,6 +307,45 @@
 								"api",
 								"user",
 								"shorten"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Shorten by User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"shorten\" : \"mad-fgo\",\r\n    \"original\" : \"https://www.youtube.com/watch?v=ZMSz2hQc4Vs&list=RDpZdWO9I_cxA&index=2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_local}}/api/user/shorten/207d7362-3008-4728-9c5b-67fc0939c219",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"shorten",
+								"207d7362-3008-4728-9c5b-67fc0939c219"
 							]
 						}
 					},
@@ -333,7 +382,7 @@
 			"response": []
 		},
 		{
-			"name": "redirect",
+			"name": "Redirect",
 			"request": {
 				"method": "GET",
 				"header": [],
