@@ -48,7 +48,7 @@ func (a *AuthenticationServiceImpl) Login(users request.LoginRequest) (string, e
 }
 
 // Register implements AuthenticationService
-func (a *AuthenticationServiceImpl) Register(u request.CreateUserRequest) (models.UserResponse, error) {
+func (a *AuthenticationServiceImpl) Register(u request.CreateUserRequest) (result models.UserResponse, err error) {
 
 	hashedPassword, err := helpers.HashPassword(u.Password)
 	helpers.ErrorPanic(err)
@@ -63,13 +63,15 @@ func (a *AuthenticationServiceImpl) Register(u request.CreateUserRequest) (model
 	}
 	savedUser, err := a.UsersRepository.Save(newUser)
 
-	users := models.UserResponse{
-		ID:        savedUser.ID,
-		Username:  savedUser.Username,
-		Email:     savedUser.Email,
-		CreatedAt: savedUser.CreatedAt,
-		UpdatedAt: savedUser.UpdatedAt,
-		RolesID:   savedUser.RolesID,
+	if err != nil {
+		return result, errors.New("Failed to save user")
+	}
+
+	idUser := string((savedUser.ID).String())
+
+	users, err := a.UsersRepository.FindById(idUser)
+	if err != nil {
+		return users, err
 	}
 
 	return users, err

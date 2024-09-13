@@ -27,7 +27,7 @@ func LoadConfig() (config Config, err error) {
 		Env:            os.Getenv("ENV"),
 		Port:           os.Getenv("PORT"),
 		SecretKey:      os.Getenv("SECRET"),
-		TokenExpiresIn: os.Getenv("TOKEN_EXPIRESIN"),
+		TokenExpiresIn: os.Getenv("TOKEN_EXPIRED_IN"),
 		TokenMaxAge:    os.Getenv("TOKEN_MAXAGE"),
 		DBHost:         os.Getenv("DB_HOST"),
 		DBPort:         os.Getenv("DB_PORT"),
